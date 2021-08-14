@@ -22,7 +22,11 @@ class Image :
     def get_image(self):
         return self.image
 
-    def get_image_with_boxes(self):
+    def get_image_with_boxes(self,scale):
+        """
+            scale= 1 original size
+            returns the image with the boxes drawn 
+        """
         Cimage = self.image.copy()
         for b in self.boxes:
             if b == self.selectedBox:
@@ -31,7 +35,7 @@ class Image :
             else:
                 ch = cv2.addWeighted(Cimage[b.y:b.y+b.height,b.x:b.x+b.width,:],0.5,0,1-0.5,0)
                 Cimage[b.y:b.y+b.height,b.x:b.x+b.width,:] = ch
-        return Cimage
+        return cv2.resize(Cimage,None,fx=scale, fy=scale, interpolation = cv2.INTER_LINEAR)
 
     def select_box_at(self,x,y):
         for b in self.boxes:
