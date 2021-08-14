@@ -15,7 +15,6 @@ class Data_stack:
     def select_batch_with_name(self,name):
         for b in self.batches:
             if b.get_name() == name:
-                print("batch found")
                 self.select_batch(b)
 
     def get_selected_batch(self):

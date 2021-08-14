@@ -14,18 +14,19 @@ class Editor(QtWidgets.QGraphicsScene):
         self.lastX=0
         self.lastY=0
         self.scale=1.
+        self.changed=QtCore.pyqtSignal()
 
     def mousePressEvent(self, event): 
         if self.image_selected():
             x,y=self.scale_mouse_position(event.scenePos().x(),event.scenePos().y())
             #sets selected box (if no box is under the mouse selected=None)
-            self.get_Image_rep().select_box_at(x,y)
+            self.get_Image_rep().pick_box_at(x,y)
             self.repaint()
 
     def mouseMoveEvent(self, event):
         if self.image_selected():
             x,y=self.scale_mouse_position(event.scenePos().x(),event.scenePos().y())
-            selectedBox=self.get_Image_rep().get_selected_box()
+            selectedBox=self.get_Image_rep().get_picked_box()
             if selectedBox:
                 selectedBox.move(x-self.lastX,y-self.lastY)
                 self.repaint()
@@ -34,7 +35,7 @@ class Editor(QtWidgets.QGraphicsScene):
 
     def mouseReleaseEvent(self, event):
         if self.image_selected():
-            self.get_Image_rep().set_selected_box(None)
+            self.get_Image_rep().unpick_box()
 
     def keyPressEvent(self, event):
         if(event.modifiers()==QtCore.Qt.ControlModifier and event.key()==QtCore.Qt.Key_Equal):
@@ -43,8 +44,10 @@ class Editor(QtWidgets.QGraphicsScene):
         elif(event.modifiers()==QtCore.Qt.ControlModifier and event.key()==QtCore.Qt.Key_Minus):
             self.zoom(-0.1)
             self.repaint()
-
-
+        elif(event.key()==QtCore.Qt.Key_Backspace):
+            self.get_Image_rep().delete_selected_box()
+            self.repaint()
+        
     def zoom(self,val):
         if self.scale+val >0 and self.scale+val<=1:
             self.scale+=val

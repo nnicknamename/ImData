@@ -9,6 +9,7 @@ class Image :
         self.image=cv2.imread(self.image_file)
         self.boxes=list()
         self.selectedBox=None
+        self.pickedBox=None
 
     def add_box(self,x,y):
         self.boxes.insert(0,Box(x,y,100,100,self.image.shape[1], self.image.shape[0],self.get_nb_boxes()+1))
@@ -71,9 +72,25 @@ class Image :
     def get_boxes(self):
         return self.boxes
 
-    def delete_box(sef,name):
+    def delete_box(self,name):
         for b in self.boxes:
             if b.get_name() == name:
                 self.boxes.remove(b)            
                 return 1
     
+    def delete_selected_box(self):
+        self.delete_box(self.selectedBox.get_name())            
+
+    def pick_box_at(self,x,y):
+        """
+            picking a box selects it too 
+            used to move boxes in editor
+        """
+        self.select_box_at(x,y)
+        self.pickedBox=self.selectedBox
+
+    def unpick_box(self):
+        self.pickedBox=None
+
+    def get_picked_box(self):
+        return self.pickedBox
