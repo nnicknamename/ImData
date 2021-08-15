@@ -3,7 +3,9 @@ from Box import *
 import cv2
 
 class Image :
-    "Image class represents an image including its Boxes"
+    """
+    Image class represents an image including its Boxes
+    """
     def __init__(self,image_file):
         self.image_file=image_file
         self.image=cv2.imread(self.image_file)
@@ -50,7 +52,7 @@ class Image :
 
     def set_selected_box(self,box):
         self.selectedBox=box
-    
+
     def get_nb_boxes(self):
         return len(self.boxes)
 
@@ -68,7 +70,7 @@ class Image :
             if b.get_name() == name:
                 self.selectedBox=b            
                 return 1
-    
+
     def get_boxes(self):
         return self.boxes
 
@@ -77,10 +79,17 @@ class Image :
             if b.get_name() == name:
                 self.boxes.remove(b)            
                 return 1
-    
+        self.update_box_names()
+
+    def update_box_names(self):
+        k=self.get_nb_boxes()
+        for b in self.boxes:
+            b.set_name(str(k))
+            k-=1
+        print("updated")
     def delete_selected_box(self):
         self.delete_box(self.selectedBox.get_name())            
-
+        self.update_box_names()
     def pick_box_at(self,x,y):
         """
             picking a box selects it too 

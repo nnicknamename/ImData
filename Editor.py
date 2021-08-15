@@ -5,6 +5,8 @@ from Preview import *
 from Image import *
 from Data_stack import *
 import cv2
+class Boxes_changed(QtCore.QObject):
+    boxes_changed = QtCore.pyqtSignal()
 
 class Editor(QtWidgets.QGraphicsScene):
     def __init__(self,data_stack,preview,parent=None):
@@ -15,7 +17,7 @@ class Editor(QtWidgets.QGraphicsScene):
         self.lastY=0
         self.scale=1.
         self.changed=QtCore.pyqtSignal()
-
+        self.sig =Boxes_changed()
     def mousePressEvent(self, event): 
         if self.image_selected():
             x,y=self.scale_mouse_position(event.scenePos().x(),event.scenePos().y())
@@ -47,7 +49,8 @@ class Editor(QtWidgets.QGraphicsScene):
         elif(event.key()==QtCore.Qt.Key_Backspace):
             self.get_Image_rep().delete_selected_box()
             self.repaint()
-        
+            self.sig.boxes_changed.emit()  
+
     def zoom(self,val):
         if self.scale+val >0 and self.scale+val<=1:
             self.scale+=val

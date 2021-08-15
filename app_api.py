@@ -9,9 +9,10 @@ class app_api:
 
     def __init__(self,data_stack,editor,batch_tree,boxes_tree):
         self.data_stack=data_stack
-        self.editor=editor
+        self.editor=editor        
         self.batch_tree=batch_tree
         self.boxes_tree=boxes_tree
+        editor.sig.boxes_changed.connect(self.update_boxes_tree)
 
     def select_image(self,name):
         self.data_stack.get_selected_batch().select_image_with_file(name)

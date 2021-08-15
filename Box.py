@@ -39,3 +39,6 @@ class Box:
         return ( x>self.x and y>self.y and x<self.x+self.width and y<self.y+self.height )
     def get_name(self):
         return str(self.name)
+
+    def set_name(self,name):
+        self.name=name
