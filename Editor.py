@@ -5,6 +5,7 @@ from Preview import *
 from Image import *
 from Data_stack import *
 import cv2
+
 class Boxes_changed(QtCore.QObject):
     boxes_changed = QtCore.pyqtSignal()
 
@@ -41,10 +42,10 @@ class Editor(QtWidgets.QGraphicsScene):
 
     def keyPressEvent(self, event):
         if(event.modifiers()==QtCore.Qt.ControlModifier and event.key()==QtCore.Qt.Key_Equal):
-            self.zoom(0.1)
+            self.zoom(1)
             self.repaint()
         elif(event.modifiers()==QtCore.Qt.ControlModifier and event.key()==QtCore.Qt.Key_Minus):
-            self.zoom(-0.1)
+            self.zoom(-1)
             self.repaint()
         elif(event.key()==QtCore.Qt.Key_Backspace):
             self.get_Image_rep().delete_selected_box()
@@ -52,17 +53,21 @@ class Editor(QtWidgets.QGraphicsScene):
             self.sig.boxes_changed.emit()  
 
     def zoom(self,val):
-        if self.scale+val >0 and self.scale+val<=1:
-            self.scale+=val
-
+        if val==1:
+            if self.scale+0.1 >0 and self.scale+0.1<=1:
+                self.scale+=0.1
+        elif val==-1:
+            if self.scale-0.1 >0 and self.scale-0.1<=1:
+                self.scale-=0.1
+        self.scale=round(self.scale,1)
 
     def add_box(self,x,y):
         self.get_Image_rep().add_box(x,y)
         self.repaint()
 
     def show_image(self):
-        image=self.get_Image_rep().get_image_with_boxes(self.scale)
-        self.qimage = QtGui.QImage(image.data,image.shape[1], image.shape[0], QtGui.QImage.Format_RGB888).rgbSwapped()
+        self.qimage =self.get_Image_rep().get_image_with_boxes(self.scale)
+        #self.qimage = QtGui.QImage(image.data,image.shape[1]-1, image.shape[0]-1, QtGui.QImage.Format_RGB888).rgbSwapped()
         self.pixmap=QtGui.QPixmap.fromImage(self.qimage)
         self.item =QtWidgets.QGraphicsPixmapItem(self.pixmap)
         self.clear()

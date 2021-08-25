@@ -1,4 +1,5 @@
 from PyQt5 import QtWidgets
+from PyQt5 import QtGui
 from Box import *
 import cv2
 
@@ -14,7 +15,7 @@ class Image :
         self.pickedBox=None
 
     def add_box(self,x,y):
-        self.boxes.insert(0,Box(x,y,100,100,self.image.shape[1], self.image.shape[0],self.get_nb_boxes()+1))
+        self.boxes.insert(0,Box(x,y,400,400,self.image.shape[1], self.image.shape[0],self.get_nb_boxes()+1))
 
     def get_box_at(self,x,y):
         for b in self.boxes:
@@ -28,17 +29,23 @@ class Image :
     def get_image_with_boxes(self,scale):
         """
             scale= 1 original size
-            returns the image with the boxes drawn 
+            returns the image with the boxes  
         """
         Cimage = self.image.copy()
         for b in self.boxes:
             if b == self.selectedBox:
-                ch = cv2.addWeighted(Cimage[b.y:b.y+b.height,b.x:b.x+b.width,:],0.8,0,1-0.5,0)
+                ch = cv2.addWeighted(Cimage[b.y:b.y+b.height,b.x:b.x+b.width,:],0.8,0,0.5,0)
                 Cimage[b.y:b.y+b.height,b.x:b.x+b.width,:] = ch
             else:
-                ch = cv2.addWeighted(Cimage[b.y:b.y+b.height,b.x:b.x+b.width,:],0.5,0,1-0.5,0)
+                ch = cv2.addWeighted(Cimage[b.y:b.y+b.height,b.x:b.x+b.width,:],0.5,0,0.5,0)
                 Cimage[b.y:b.y+b.height,b.x:b.x+b.width,:] = ch
-        return cv2.resize(Cimage,None,fx=scale, fy=scale, interpolation = cv2.INTER_LINEAR)
+        print(scale)
+        Cimage=cv2.resize(Cimage,None,fx=scale, fy=scale, interpolation = cv2.INTER_LINEAR)
+        Cimage = cv2.cvtColor(Cimage, cv2.COLOR_BGR2RGB)
+        h, w, ch = Cimage.shape
+        bytesPerLine = ch * w
+        return QtGui.QImage(Cimage.data, w, h, bytesPerLine, QtGui.QImage.Format_RGB888)
+         
 
     def select_box_at(self,x,y):
         for b in self.boxes:

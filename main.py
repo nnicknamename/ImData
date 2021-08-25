@@ -29,14 +29,17 @@ class Ui(QtWidgets.QMainWindow):
 
     def add_image(self):
         options = QtWidgets.QFileDialog.Options()
-        fileName, _ = QtWidgets.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","Image files (*.jpg *.png)", options=options)
-        if fileName and not self.dataStack.get_selected_batch().is_image_in_Batch(fileName):
-            self.api.add_image(fileName)
-        else:
-            dlg = QtWidgets.QMessageBox(self)
-            dlg.setWindowTitle("Error")
-            dlg.setText("this Image is already in the selected Batch")
-
+        fileNames, _ = QtWidgets.QFileDialog.getOpenFileNames(self,"QFileDialog.getOpenFileNames()", "","Image files (*.jpg *.png)", options=options)
+        self.load_images(fileNames)
+    def load_images(self,files):
+        for f in files:
+            if f and not self.dataStack.get_selected_batch().is_image_in_Batch(f):
+                self.api.add_image(f)
+            else:
+                dlg = QtWidgets.QMessageBox(self)
+                dlg.setWindowTitle("Error")
+                dlg.setText("this Image is already in the selected Batch")
+                exit(0)
     def add_batch(self):
         dialog=Add_batch_dialog(self.dataStack,self)
         self.api.add_batch(dialog.name)

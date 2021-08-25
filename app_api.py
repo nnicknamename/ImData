@@ -34,7 +34,7 @@ class app_api:
         self.update_batch_tree()
 
     def add_box(self,x,y):
-        self.editor.add_box(100,100)
+        self.editor.add_box(300,300)
         self.update_boxes_tree()
 
     def slect_box(self,name):
