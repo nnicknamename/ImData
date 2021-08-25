@@ -104,3 +104,6 @@ class Editor(QtWidgets.QGraphicsScene):
         return False      
     def scale_mouse_position(self,x,y):
         return x/self.scale,y/self.scale
+
+    def set_data_stack(self,data_stack):
+        self.data_stack=data_stack

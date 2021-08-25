@@ -16,7 +16,6 @@ class Ui(QtWidgets.QMainWindow):
         super(Ui, self).__init__()
         uic.loadUi('app.ui', self) 
         self.dataStack=Data_stack()
-        self.Batch_images_tree.insertTopLevelItems(0,self.dataStack.get_tree_list())
         self.init_Editor()
         self.api=app_api(self.dataStack, self.editor, self.Batch_images_tree, self.Boxes_tree)
         self.show()
@@ -67,7 +66,19 @@ class Ui(QtWidgets.QMainWindow):
         gen=renderer(self.dataStack)
         data,classes=gen.get_as_numpy_array()
         gen.save_dataset(data,classes)
+    def save(self):
+        options = QtWidgets.QFileDialog.Options()
+        fileName ,_= QtWidgets.QFileDialog.getSaveFileName(self,"QFileDialog.getOpenFileNames()", "","Image files (*.obj)", options=options)
+        
+        self.api.save(fileName)
 
+    def load(self):
+        options = QtWidgets.QFileDialog.Options()
+        fileName ,_= QtWidgets.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileNames()", "","Image files (*.obj)", options=options)
+        self.api.load(fileName)
+        #self.dataStack=self.api.get_data_stack()
+        #self.init_Editor()
+        pass 
 app = QtWidgets.QApplication(sys.argv)
 window = Ui()
 app.exec_()

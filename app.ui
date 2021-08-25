@@ -1325,6 +1325,9 @@ QProgressBar::chunk
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -1333,6 +1336,14 @@ QProgressBar::chunk
      <height>24</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionOpen"/>
+    <addaction name="actionSave"/>
+   </widget>
+   <addaction name="menuFile"/>
   </widget>
   <action name="addImage">
    <property name="text">
@@ -1370,6 +1381,16 @@ QProgressBar::chunk
    </property>
    <property name="shortcut">
     <string>Ctrl+G</string>
+   </property>
+  </action>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save</string>
    </property>
   </action>
  </widget>
@@ -1471,6 +1492,38 @@ QProgressBar::chunk
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionSave</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>500</x>
+     <y>91</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>275</x>
+     <y>174</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionOpen</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>load()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>275</x>
+     <y>174</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>add_image()</slot>
@@ -1480,5 +1533,7 @@ QProgressBar::chunk
   <slot>select_Image()</slot>
   <slot>select_box()</slot>
   <slot>generate()</slot>
+  <slot>save()</slot>
+  <slot>load()</slot>
  </slots>
 </ui>

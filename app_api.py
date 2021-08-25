@@ -4,6 +4,7 @@ from Image import *
 from Data_stack import *
 from Batch import *
 from Add_batch_dialog import *
+import pickle
 
 class app_api:
 
@@ -11,7 +12,9 @@ class app_api:
         self.data_stack=data_stack
         self.editor=editor        
         self.batch_tree=batch_tree
+        self.batch_tree.insertTopLevelItems(0,self.data_stack.get_tree_list())
         self.boxes_tree=boxes_tree
+
         editor.sig.boxes_changed.connect(self.update_boxes_tree)
 
     def select_image(self,name):
@@ -53,3 +56,19 @@ class app_api:
         if self.data_stack.get_selected_batch() and self.data_stack.get_selected_batch().get_selected_image():
             self.boxes_tree.insertTopLevelItems(0,self.data_stack.get_selected_batch().get_selected_image().get_Boxes_tree())
         self.batch_tree.update()
+
+
+    def save(self,path):
+        with open(path,'wb') as fil:
+            pickle.dump(self.data_stack,fil)
+        pass
+    def load(self,path):
+        fil=open(path,'rb')
+        self.data_stack=pickle.load(fil)
+        self.update_boxes_tree()
+        self.update_batch_tree()
+        self.editor.set_data_stack(self.data_stack)
+        self.editor.paint()
+
+    def get_data_stack(self):
+        return self.data_stack
