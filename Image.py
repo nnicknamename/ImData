@@ -9,7 +9,8 @@ class Image :
     """
     def __init__(self,image_file):
         self.image_file=image_file
-        self.image=cv2.imread(self.image_file)
+        self.loaded=False
+        #self.image=cv2.imread(self.image_file)
         self.boxes=list()
         self.selectedBox=None
         self.pickedBox=None
@@ -24,6 +25,9 @@ class Image :
         return None
 
     def get_image(self):
+        if not self.loaded:
+            self.image=cv2.imread(self.image_file)
+            self.loaded=True
         return self.image
 
     def get_image_with_boxes(self,scale):
@@ -31,7 +35,8 @@ class Image :
             scale= 1 original size
             returns the image with the boxes  
         """
-        Cimage = self.image.copy()
+
+        Cimage = self.get_image().copy()
         for b in self.boxes:
             if b == self.selectedBox:
                 ch = cv2.addWeighted(Cimage[b.y:b.y+b.height,b.x:b.x+b.width,:],0.8,0,0.5,0)
@@ -80,6 +85,9 @@ class Image :
 
     def get_boxes(self):
         return self.boxes
+
+    def set_boxes(self,boxes):
+        self.boxes=boxes
 
     def delete_box(self,name):
         for b in self.boxes:

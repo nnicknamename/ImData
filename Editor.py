@@ -4,6 +4,7 @@ from Box import *
 from Preview import *
 from Image import *
 from Data_stack import *
+
 import cv2
 
 class Boxes_changed(QtCore.QObject):
@@ -19,10 +20,10 @@ class Editor(QtWidgets.QGraphicsScene):
         self.scale=1.
         self.changed=QtCore.pyqtSignal()
         self.sig =Boxes_changed()
+
     def mousePressEvent(self, event): 
         if self.image_selected():
             x,y=self.scale_mouse_position(event.scenePos().x(),event.scenePos().y())
-            #sets selected box (if no box is under the mouse selected=None)
             self.get_Image_rep().pick_box_at(x,y)
             self.repaint()
 

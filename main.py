@@ -32,7 +32,7 @@ class Ui(QtWidgets.QMainWindow):
         self.load_images(fileNames)
     def load_images(self,files):
         for f in files:
-            if f and not self.dataStack.get_selected_batch().is_image_in_Batch(f):
+            if f and not self.api.get_data_stack().get_selected_batch().is_image_in_Batch(f):
                 self.api.add_image(f)
             else:
                 dlg = QtWidgets.QMessageBox(self)
@@ -68,17 +68,16 @@ class Ui(QtWidgets.QMainWindow):
         gen.save_dataset(data,classes)
     def save(self):
         options = QtWidgets.QFileDialog.Options()
-        fileName ,_= QtWidgets.QFileDialog.getSaveFileName(self,"QFileDialog.getOpenFileNames()", "","Image files (*.obj)", options=options)
+        fileName ,_= QtWidgets.QFileDialog.getSaveFileName(self,"QFileDialog.getOpenFileNames()", "","Image files (*.stk)", options=options)
         
         self.api.save(fileName)
 
     def load(self):
         options = QtWidgets.QFileDialog.Options()
-        fileName ,_= QtWidgets.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileNames()", "","Image files (*.obj)", options=options)
+        fileName ,_= QtWidgets.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileNames()", "","stack files (*.stk)", options=options)
         self.api.load(fileName)
         #self.dataStack=self.api.get_data_stack()
         #self.init_Editor()
-        pass 
 app = QtWidgets.QApplication(sys.argv)
 window = Ui()
 app.exec_()

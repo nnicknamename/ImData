@@ -2,10 +2,17 @@
 from Batch import *
 from Image import *
 class Data_stack:
-    def __init__(self):
+    def __init__(self,rep=None):
         self.batches=list()
-        self.selectedBatch=None
-
+        self.selectedBatch=None 
+        if rep is not None:
+            for batch_name in rep:
+                batch=Batch(batch_name)
+                for image_path in rep[batch_name]:
+                    image=Image(image_path)
+                    image.set_boxes(rep[batch_name][image_path])
+                    batch.add_image_rep(image)
+                self.add_batch(batch)
     def add_batch(self,batch):
         self.batches.append(batch)
 
@@ -44,5 +51,3 @@ class Data_stack:
                 self.batches.remove(b)
                 return 1
         return 0
-
-    

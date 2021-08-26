@@ -35,8 +35,10 @@ class Box:
     
     def move(self,x,y):
         self.set_position(self.x+x, self.y+y)
+
     def is_inside(self, x,y):
         return ( x>self.x and y>self.y and x<self.x+self.width and y<self.y+self.height )
+
     def get_name(self):
         return str(self.name)
 
