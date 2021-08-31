@@ -7,10 +7,10 @@ class Image :
     """
     Image class represents an image including its Boxes
     """
+    #FIXME: free loaded images when not needed 
     def __init__(self,image_file):
         self.image_file=image_file
         self.loaded=False
-        #self.image=cv2.imread(self.image_file)
         self.boxes=list()
         self.selectedBox=None
         self.pickedBox=None
@@ -44,7 +44,6 @@ class Image :
             else:
                 ch = cv2.addWeighted(Cimage[b.y:b.y+b.height,b.x:b.x+b.width,:],0.5,0,0.5,0)
                 Cimage[b.y:b.y+b.height,b.x:b.x+b.width,:] = ch
-        print(scale)
         Cimage=cv2.resize(Cimage,None,fx=scale, fy=scale, interpolation = cv2.INTER_LINEAR)
         Cimage = cv2.cvtColor(Cimage, cv2.COLOR_BGR2RGB)
         h, w, ch = Cimage.shape

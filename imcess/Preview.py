@@ -3,16 +3,19 @@ from PyQt5 import QtGui
 import cv2
 
 class Preview(QtWidgets.QGraphicsScene):
-
     def __init__(self,parent=None):
         QtWidgets.QGraphicsScene.__init__(self, parent)
 
     def set_image(self,img):
-        self.image=img.copy()
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        h, w, ch = img.shape
+        bytesPerLine = ch * w
+        img= QtGui.QImage(img.data, w, h, bytesPerLine, QtGui.QImage.Format_RGB888)
+        self.image=img
         self.paint()
 
     def show_image(self):
-        self.qimage = QtGui.QImage(self.image.data, self.image.shape[1], self.image.shape[0], QtGui.QImage.Format_RGB888).rgbSwapped()
+        self.qimage = self.image
         self.pixmap=QtGui.QPixmap.fromImage(self.qimage)
         self.item =QtWidgets.QGraphicsPixmapItem(self.pixmap)
         self.clear()

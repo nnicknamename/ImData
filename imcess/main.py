@@ -1,30 +1,27 @@
-from PyQt5 import QtWidgets, uic ,QtCore
-from PyQt5 import QtGui
-from Editor import *
-from Preview import *
-from Image import *
+from PyQt5 import QtWidgets, uic ,QtCore ,QtGui
 from Data_stack import *
-from Batch import *
 from Add_batch_dialog import *
 from app_api import *
 from render import *
-import cv2
 import sys
+
+#TODO: Features to add 
+#   add variable size boxes
+#   boxwise classification
+#   node based post processing
 
 class Ui(QtWidgets.QMainWindow):
     def __init__(self):
         super(Ui, self).__init__()
         uic.loadUi('app.ui', self) 
         self.dataStack=Data_stack()
-        self.init_Editor()
-        self.api=app_api(self.dataStack, self.editor, self.Batch_images_tree, self.Boxes_tree)
+        self.api=app_api(self.dataStack, self.Batch_images_tree, self.Boxes_tree,self.preview,self.graphicsView)
+        self.statusbar.addWidget(QtWidgets.QLabel("Width :"))
+        self.statusbar.addWidget(QtWidgets.QSpinBox())
+        self.statusbar.addWidget(QtWidgets.QLabel("Hight :"))
+        self.statusbar.addWidget(QtWidgets.QSpinBox())
         self.show()
-
-    def init_Editor(self):
-        self.previewScene=Preview()
-        self.editor=Editor(self.dataStack,self.previewScene)
-        self.graphicsView.setScene(self.editor)
-        self.preview.setScene(self.previewScene)
+        #self.statusbar.removeWidget()
 
     def add_image(self):
         options = QtWidgets.QFileDialog.Options()

@@ -51,3 +51,11 @@ class Data_stack:
                 self.batches.remove(b)
                 return 1
         return 0
+
+    def get_rep(self):
+        stack={}
+        for b in self.get_batches():
+            stack[b.get_name()]={}
+            for i in b.get_images():
+                stack[b.get_name()][i.get_name()]=i.get_boxes()
+        return stack

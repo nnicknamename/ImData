@@ -1,10 +1,7 @@
-from PyQt5 import QtWidgets, uic, QtCore
-from PyQt5 import QtGui
+from PyQt5 import QtWidgets, uic, QtCore, QtGui
 from Box import *
 from Preview import *
 from Image import *
-from Data_stack import *
-
 import cv2
 
 class Boxes_changed(QtCore.QObject):
@@ -20,11 +17,13 @@ class Editor(QtWidgets.QGraphicsScene):
         self.scale=1.
         self.changed=QtCore.pyqtSignal()
         self.sig =Boxes_changed()
-
     def mousePressEvent(self, event): 
         if self.image_selected():
             x,y=self.scale_mouse_position(event.scenePos().x(),event.scenePos().y())
             self.get_Image_rep().pick_box_at(x,y)
+            selectedBox=self.get_Image_rep().get_picked_box()
+            if selectedBox:
+                selectedBox.set_selct_mode(x,y)
             self.repaint()
 
     def mouseMoveEvent(self, event):
@@ -32,7 +31,7 @@ class Editor(QtWidgets.QGraphicsScene):
             x,y=self.scale_mouse_position(event.scenePos().x(),event.scenePos().y())
             selectedBox=self.get_Image_rep().get_picked_box()
             if selectedBox:
-                selectedBox.move(x-self.lastX,y-self.lastY)
+                selectedBox.edit(x,y,x-self.lastX,y-self.lastY)
                 self.repaint()
             self.lastX=int(x)
             self.lastY=int(y)
@@ -79,7 +78,8 @@ class Editor(QtWidgets.QGraphicsScene):
     def manage_preview(self):
         selectedBox=self.get_Image_rep().get_selected_box()
         if selectedBox:
-            self.preview.set_image(self.get_Image_rep().get_image()[selectedBox.y:selectedBox.y+selectedBox.height, selectedBox.x:selectedBox.x+selectedBox.width])
+            Cimage=self.get_Image_rep().get_image()[selectedBox.y:selectedBox.y+selectedBox.height, selectedBox.x:selectedBox.x+selectedBox.width]
+            self.preview.set_image(Cimage)
             self.preview.paint()
         else:
             self.preview.clear()

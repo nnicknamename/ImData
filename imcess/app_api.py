@@ -3,21 +3,23 @@ from Preview import *
 from Image import *
 from Data_stack import *
 from Batch import *
-from Add_batch_dialog import *
-from data_stack_rep import *
-
+#from Add_batch_dialog import *
 import pickle
 
 class app_api:
 
-    def __init__(self,data_stack,editor,batch_tree,boxes_tree):
+    def __init__(self,data_stack,batch_tree,boxes_tree,preview,graphicsView):
+        self.previewScene=Preview(preview)
         self.data_stack=data_stack
-        self.editor=editor        
+        self.editor=Editor(self.data_stack,self.previewScene,graphicsView)
+        graphicsView.setScene(self.editor)
+        preview.setScene(self.previewScene)
         self.batch_tree=batch_tree
         self.batch_tree.insertTopLevelItems(0,self.data_stack.get_tree_list())
         self.boxes_tree=boxes_tree
         self.editor.sig.boxes_changed.connect(self.update_boxes_tree)
         self.editor.sig.boxes_changed.connect(self.update_batch_tree)
+
     
     def select_image(self,name):
         self.data_stack.get_selected_batch().select_image_with_file(name)
@@ -60,7 +62,7 @@ class app_api:
         self.batch_tree.update()
 
     def save(self,path):
-        rep=data_stack_rep(self.data_stack).get_rep()
+        rep=self.data_stack.get_rep()
         with open(path,'wb') as fil:
             pickle.dump(rep,fil)
 
