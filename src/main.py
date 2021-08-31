@@ -13,7 +13,7 @@ import sys
 class Ui(QtWidgets.QMainWindow):
     def __init__(self):
         super(Ui, self).__init__()
-        uic.loadUi('app.ui', self) 
+        uic.loadUi('src/ui/app.ui', self) 
         self.dataStack=Data_stack()
         self.api=app_api(self.dataStack, self.Batch_images_tree, self.Boxes_tree,self.preview,self.graphicsView)
         self.statusbar.addWidget(QtWidgets.QLabel("Width :"))
@@ -21,7 +21,6 @@ class Ui(QtWidgets.QMainWindow):
         self.statusbar.addWidget(QtWidgets.QLabel("Hight :"))
         self.statusbar.addWidget(QtWidgets.QSpinBox())
         self.show()
-        #self.statusbar.removeWidget()
 
     def add_image(self):
         options = QtWidgets.QFileDialog.Options()
