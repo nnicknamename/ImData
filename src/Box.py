@@ -1,5 +1,3 @@
-
-
 class Box:
 
     def __init__(self,x,y,width,height,image_width,image_height,name):

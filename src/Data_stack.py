@@ -1,4 +1,3 @@
-
 from Batch import *
 from Image import *
 class Data_stack:

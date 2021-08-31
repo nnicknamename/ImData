@@ -7,7 +7,6 @@ class Image :
     """
     Image class represents an image including its Boxes
     """
-    #FIXME: free loaded images when not needed 
     def __init__(self,image_file):
         self.image_file=image_file
         self.loaded=False
@@ -30,12 +29,10 @@ class Image :
             self.loaded=True
         return self.image
 
+    def free_image(self):
+        self.image=None
+        self.loaded=False
     def get_image_with_boxes(self,scale):
-        """
-            scale= 1 original size
-            returns the image with the boxes  
-        """
-
         Cimage = self.get_image().copy()
         for b in self.boxes:
             if b == self.selectedBox:

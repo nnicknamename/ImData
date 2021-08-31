@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets, uic ,QtCore ,QtGui
+from PyQt5 import QtWidgets, uic ,QtCore
 from Data_stack import *
 from Add_batch_dialog import *
 from app_api import *
@@ -74,6 +74,7 @@ class Ui(QtWidgets.QMainWindow):
         self.api.load(fileName)
         #self.dataStack=self.api.get_data_stack()
         #self.init_Editor()
+
 app = QtWidgets.QApplication(sys.argv)
 window = Ui()
 app.exec_()

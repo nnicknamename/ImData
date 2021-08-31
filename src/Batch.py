@@ -14,6 +14,8 @@ class Batch:
         return len(self.image_reps)
 
     def set_selected_image(self,image_rep):
+        if self.selectedImageRep is not None:
+            self.selectedImageRep.free_image()
         self.selectedImageRep=image_rep
 
     def get_selected_image(self):

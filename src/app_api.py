@@ -3,11 +3,9 @@ from Preview import *
 from Image import *
 from Data_stack import *
 from Batch import *
-#from Add_batch_dialog import *
 import pickle
 
 class app_api:
-
     def __init__(self,data_stack,batch_tree,boxes_tree,preview,graphicsView):
         self.previewScene=Preview(preview)
         self.data_stack=data_stack

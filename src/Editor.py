@@ -1,7 +1,4 @@
-from PyQt5 import QtWidgets, uic, QtCore, QtGui
-from Box import *
-from Preview import *
-from Image import *
+from PyQt5 import QtWidgets, QtCore, QtGui
 import cv2
 
 class Boxes_changed(QtCore.QObject):

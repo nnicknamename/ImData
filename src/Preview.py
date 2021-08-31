@@ -1,5 +1,4 @@
-from PyQt5 import QtWidgets, uic
-from PyQt5 import QtGui
+from PyQt5 import QtWidgets,QtGui
 import cv2
 
 class Preview(QtWidgets.QGraphicsScene):
