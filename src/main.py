@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets, uic ,QtCore
 from Data_stack import *
 from Add_batch_dialog import *
 from app_api import *
-from render import *
+from postProcessing import *
 import sys
 
 #TODO: Features to add 
@@ -20,6 +20,7 @@ class Ui(QtWidgets.QMainWindow):
         self.statusbar.addWidget(QtWidgets.QSpinBox())
         self.statusbar.addWidget(QtWidgets.QLabel("Hight :"))
         self.statusbar.addWidget(QtWidgets.QSpinBox())
+        self.tab_2.layout().addWidget(postProcessing(self.dataStack,self))
         self.show()
 
     def add_image(self):
@@ -57,11 +58,7 @@ class Ui(QtWidgets.QMainWindow):
             print("test")
             item = selected[0]
             self.api.slect_box(item.data(0,0))
-    def generate(self):
-        print ("test")
-        gen=renderer(self.dataStack)
-        data,classes=gen.get_as_numpy_array()
-        gen.save_dataset(data,classes)
+    
     def save(self):
         options = QtWidgets.QFileDialog.Options()
         fileName ,_= QtWidgets.QFileDialog.getSaveFileName(self,"QFileDialog.getOpenFileNames()", "","Image files (*.stk)", options=options)
