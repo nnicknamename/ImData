@@ -1017,7 +1017,7 @@ QProgressBar::chunk
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>288</width>
+         <width>293</width>
          <height>383</height>
         </rect>
        </property>
@@ -1088,7 +1088,11 @@ QProgressBar::chunk
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="widthField"/>
+             <widget class="QSpinBox" name="widthField">
+              <property name="maximum">
+               <number>10000</number>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_3">
@@ -1104,7 +1108,11 @@ QProgressBar::chunk
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="heightField"/>
+             <widget class="QSpinBox" name="heightField">
+              <property name="maximum">
+               <number>10000</number>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -1125,17 +1133,17 @@ QProgressBar::chunk
            <widget class="QComboBox" name="interpolationCombo">
             <item>
              <property name="text">
-              <string>New Item</string>
+              <string>Area</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>New Item</string>
+              <string>Cubic</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>New Item</string>
+              <string>Linear</string>
              </property>
             </item>
            </widget>
@@ -1155,6 +1163,9 @@ QProgressBar::chunk
           </item>
           <item>
            <widget class="QComboBox" name="regularisationCombo">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <item>
              <property name="text">
               <string>New Item</string>

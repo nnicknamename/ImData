@@ -16,11 +16,8 @@ class Ui(QtWidgets.QMainWindow):
         uic.loadUi('src/ui/app.ui', self) 
         self.dataStack=Data_stack()
         self.api=app_api(self.dataStack, self.Batch_images_tree, self.Boxes_tree,self.preview,self.graphicsView)
-        self.statusbar.addWidget(QtWidgets.QLabel("Width :"))
-        self.statusbar.addWidget(QtWidgets.QSpinBox())
-        self.statusbar.addWidget(QtWidgets.QLabel("Hight :"))
-        self.statusbar.addWidget(QtWidgets.QSpinBox())
-        self.tab_2.layout().addWidget(postProcessing(self.dataStack,self))
+        self.pp = postProcessing(self.dataStack,self)
+        self.tab_2.layout().addWidget(self.pp)
         self.show()
 
     def add_image(self):
@@ -69,6 +66,7 @@ class Ui(QtWidgets.QMainWindow):
         options = QtWidgets.QFileDialog.Options()
         fileName ,_= QtWidgets.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileNames()", "","stack files (*.stk)", options=options)
         self.api.load(fileName)
+        self.pp.set_data_stack(self.api.get_data_stack())
         #self.dataStack=self.api.get_data_stack()
         #self.init_Editor()
 
